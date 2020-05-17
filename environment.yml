@@ -1,0 +1,14 @@
+name: ca-growth
+channels:
+- anaconda
+- conda-forge
+- defaults
+- pytorch
+dependencies:
+    - python=3.8
+    - numpy
+    - pyyaml
+    - pytorch=1.5
+    - torchvision
+    - opencv
+    - cudatoolkit=10.2

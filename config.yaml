@@ -1,0 +1,6 @@
+logger:
+  name: ca-growth-model
+  path: logs
+  level: INFO
+  message_format: "%(levelname)s %(asctime)s - %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"
