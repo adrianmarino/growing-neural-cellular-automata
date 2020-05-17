@@ -17,7 +17,7 @@
 import torch as t
 
 
-def single_kernel_filter(kernel, in_channels=1): return conv_filter([kernel] * in_channels)
+def repeated_kernel_filter(kernel, in_channels=1): return conv_filter([kernel] * in_channels)
 
 
 def conv_filter(in_channel_kernels=[]): return t.stack(in_channel_kernels, 0)
