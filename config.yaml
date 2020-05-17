@@ -1,3 +1,12 @@
+model:
+  in-channels: 3
+  perception:
+    out-channels: 3
+    filters:
+      - SOLVER_X
+      - SOLVER_Y
+      - IDENTITY
+
 logger:
   name: ca-growth-model
   path: logs
