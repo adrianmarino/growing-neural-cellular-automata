@@ -1,34 +1,10 @@
-import torch as t
-import torch.nn.functional as F
 from torch import nn
 
 from lib.conv import conv, kernel
+from lib.model.perception import PerceptionStep
 from lib.util import img
 from lib.util.config import Config
-from lib.util.inspect import show_tensor
 from lib.util.logger_factory import LoggerFactory
-
-
-class PerceptionStep:
-    def __init__(self, filters, out_channels_per_filter):
-        self.__filters = filters
-        self.__out_channels_per_filter = out_channels_per_filter
-
-    def apply(self, input):
-        outputs = []
-        for filter_ in self.__filters:
-            weights = conv.weights(filter_, self.__out_channels_per_filter)
-            show_tensor('weights', weights)
-
-            input_batch = input[None, :]
-            show_tensor('input_batch', input_batch)
-
-            output = F.conv2d(input_batch, weights, stride=1, padding=1)
-            show_tensor('output', output)
-
-            outputs.append(output)
-
-        return t.cat(outputs, 0)
 
 
 class CellGrowthModel(nn.Module):
@@ -37,7 +13,7 @@ class CellGrowthModel(nn.Module):
         self.__perception_step = perception_step
 
     def forward(self, input):
-        perception = self.__perception_step.apply(input)
+        perception = self.__perception_step.apply_to(input)
         return perception
 
 
@@ -76,7 +52,9 @@ if __name__ == "__main__":
             conv.repeated_kernel_filter(kernel.SOLVER_Y, IN_CHANNELS),
             conv.repeated_kernel_filter(kernel.IDENTITY, IN_CHANNELS)
         ],
-        out_channels_per_filter=IN_CHANNELS
+        out_channels_per_filter=IN_CHANNELS,
+        stride=1,
+        padding=1
     )
     model = CellGrowthModel(perception_step)
 
