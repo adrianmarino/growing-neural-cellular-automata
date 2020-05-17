@@ -1,40 +1,41 @@
 from torch import nn
 
-from lib.conv import kernel, conv
-from lib.model.perception import PerceptionStep
+from lib.model.step.perception_step import PerceptionStepFactory
+from lib.model.step.stochastic_cell_update import StochasticCellUpdateStep
+from lib.model.step.update_rule_step import UpdateRuleStep
 
 
 class CellGrowthModel(nn.Module):
-    def __init__(self, perception_step):
-        super(CellGrowthModel, self).__init__()
-        self.__perception_step = perception_step
-
-    def forward(self, input):
-        perception = self.__perception_step.apply_to(input)
-        return perception
-
-
-class PerceptionStepFactory:
     @staticmethod
     def create(cfg):
-        return PerceptionStep(
-            filters=PerceptionStepFactory.__create_filters(cfg),
-            out_channels_per_filter=cfg['model.perception.out-channels'],
-            stride=1,
-            padding=1
+        return CellGrowthModel(
+            steps=[
+                PerceptionStepFactory(cfg).create(),
+                UpdateRuleStep(),
+                StochasticCellUpdateStep()
+            ]
         )
 
-    @staticmethod
-    def __create_filters(cfg):
-        filters = []
-        for name in cfg['model.perception.filters']:
-            k = getattr(kernel, name)
-            filters.append(conv.repeated_kernel_filter(k, cfg['model.in-channels']))
-        return filters
+    def __init__(self, steps):
+        super(CellGrowthModel, self).__init__()
+        self.__steps = steps
+        self.conv1 = nn.Conv2d(
+            in_channels=9,
+            out_channels=128,
+            kernel_size=1,
+            stride=1,
+            padding=0
+        )
+        self.conv2 = nn.Conv2d(
+            in_channels=128,
+            out_channels=3,
+            kernel_size=1,
+            stride=1,
+            padding=0
+        )
 
-
-class CellGrowthModelFactory:
-    @staticmethod
-    def create(cfg):
-        perception_step = PerceptionStepFactory.create(cfg)
-        return CellGrowthModel(perception_step)
+    def forward(self, input):
+        output = input
+        for step in self.__steps:
+            output = step.perform(self, output)
+        return output

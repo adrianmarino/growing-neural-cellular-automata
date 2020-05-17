@@ -17,6 +17,6 @@ def normalize_tensor(tensor, from_channel=0, to_channel=3, divider=255.):
 
 
 def show(tensor, title=''):
-    array = tensor.permute(1, 2, 0).numpy()
+    array = tensor.permute(1, 2, 0).detach().numpy()
     cv2.imshow(f'{tensor.size()} {title}', array)
     cv2.waitKey(0)

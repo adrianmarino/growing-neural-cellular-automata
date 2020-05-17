@@ -5,7 +5,6 @@ model:
     filters:
       - SOLVER_X
       - SOLVER_Y
-      - IDENTITY
 
 logger:
   name: ca-growth-model
