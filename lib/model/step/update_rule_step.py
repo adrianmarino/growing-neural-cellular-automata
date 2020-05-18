@@ -4,15 +4,8 @@ from lib.model.step import ModelStep
 
 
 class UpdateRuleStep(ModelStep):
-    def perform(self, model, x):
-        print(x.size())
-
-        x = model.conv1(x)
-        print(x.size())
-
-        x = F.relu(x)
-        print(x.size())
-
-        x = model.conv2(x)
-        print(x.size())
-        return x
+    def perform(self, model, _, current_batch):
+        output_batch = model.conv1(current_batch)
+        output_batch = F.relu(output_batch)
+        output_batch = model.conv2(output_batch)
+        return output_batch

@@ -13,6 +13,7 @@ class CellGrowthModel(nn.Module):
                 PerceptionStepFactory(cfg).create(),
                 UpdateRuleStep(),
                 StochasticCellUpdateStep()
+                # , LivingCellMaskingStep()
             ]
         )
 
@@ -22,20 +23,20 @@ class CellGrowthModel(nn.Module):
         self.conv1 = nn.Conv2d(
             in_channels=9,
             out_channels=128,
-            kernel_size=1,
+            kernel_size=(1, 1),
             stride=1,
             padding=0
         )
         self.conv2 = nn.Conv2d(
             in_channels=128,
             out_channels=3,
-            kernel_size=1,
+            kernel_size=(1, 1),
             stride=1,
             padding=0
         )
 
-    def forward(self, input):
-        output = input
+    def forward(self, input_batch):
+        current_batch = input_batch
         for step in self.__steps:
-            output = step.perform(self, output)
-        return output
+            current_batch = step.perform(self, input_batch, current_batch)
+        return current_batch

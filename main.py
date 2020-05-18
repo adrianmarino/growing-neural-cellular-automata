@@ -1,5 +1,4 @@
-import logging
-
+import cv2
 import torch as t
 
 from lib.model import input
@@ -15,11 +14,17 @@ if __name__ == "__main__":
     model = CellGrowthModel.create(cfg)
 
     input_tensor = input.from_img('data/dragon.png', in_channels=cfg['model.in-channels'])
-    # img.show(input_tensor)
-    input_batch = t.stack([input_tensor], 0)
-    print(input_batch.size())
+    input_batch = t.stack([input_tensor.clone()], 0)
 
-    output = model.forward(input_batch)
-    logging.info(output.size())
+    img.show(input_tensor, size=(1500, 1500))
+    output = input_batch
+    for index in range(0, 120):
+        output = model.forward(output)
 
-    img.show(output[0])
+        img.show(
+            output[0],
+            title=f'Step: {index}',
+            size=(1500, 1500)
+        )
+
+    cv2.destroyAllWindows()

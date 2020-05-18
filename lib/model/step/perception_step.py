@@ -2,7 +2,7 @@ import torch as t
 import torch.nn.functional as F
 
 from lib.conv import conv, kernel
-from lib.model.step import ModelStep
+from lib.model.step import ModelStep, batch_map
 
 
 class PerceptionStep(ModelStep):
@@ -12,15 +12,10 @@ class PerceptionStep(ModelStep):
         self.__padding = padding
         self.__out_channels_per_filter = out_channels_per_filter
 
-    def perform(self, _, input_batch):
-        output_batch = None
-        for input in input_batch:
-            output = self.perception_operation(input)
-            output = output[None, :]
-            output_batch = output if output_batch is None else t.cat([output_batch, output], 0)
-        return output_batch
+    def perform(self, _, input_batch, current_batch):
+        return batch_map(current_batch, self.perception_operation)
 
-    def perception_operation(self, input):
+    def perception_operation(self, _, input):
         output = input.clone()
         for f in self.__filters:
             output = t.cat([output, self.__conv(input, f)[0]], 0)
