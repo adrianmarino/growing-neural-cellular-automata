@@ -16,13 +16,16 @@ def normalize_tensor(tensor, from_channel=0, to_channel=3, divider=255.):
     return tensor[from_channel:to_channel, :, :] / divider
 
 
-def show(tensor, title='', size=None, close_key=0):
+def show_tensor(tensor, title='', size=None, close_key=0):
+    tensor = tensor[0:3, :]
     array = tensor.permute(1, 2, 0).detach().numpy()
+    show_array(array, f'{tensor.size()} {title}', size, close_key)
 
+
+def show_array(array, title='', size=None, close_key=0):
     if size:
         array = cv2.resize(array, size)
 
-    title = f'{tensor.size()} {title}'
     cv2.imshow(title, array)
     cv2.moveWindow(title, 40, 40)
 

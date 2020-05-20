@@ -39,7 +39,7 @@ class PerceptionStepFactory:
     def create(self):
         return PerceptionStep(
             filters=self.__create_filters(),
-            out_channels_per_filter=self.__cfg['model.perception.out-channels'],
+            out_channels_per_filter=self.__cfg['model.perception.out-channels-per-filter'],
             stride=1,
             padding=1
         )

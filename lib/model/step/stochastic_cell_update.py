@@ -15,7 +15,6 @@ class StochasticCellUpdateStep(ModelStep):
         return input_batch[index] + (ds_grid * rand_mask)
 
     def __rand_mask(self, current_batch):
-        batch_size = current_batch.size()
-        width, height = batch_size[-1], batch_size[-2]
+        _, _, width, height = current_batch.size()
         rand_mask = (t.rand(width, height) < 0.5).type(t.float32)
         return rand_mask

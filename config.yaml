@@ -1,11 +1,13 @@
 model:
-  in-channels: 3
+  in-channels: &in-ch 16
   perception:
-    out-channels: 3
+    out-channels-per-filter: *in-ch
     filters:
       - SOLVER_X
       - SOLVER_Y
-
+  dense:
+    in_channels: 48
+    out_channels: *in-ch
 logger:
   name: ca-growth-model
   path: logs

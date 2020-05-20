@@ -12,3 +12,5 @@ dependencies:
     - torchvision
     - opencv
     - cudatoolkit=10.2
+    - pip:
+        - torchviz
