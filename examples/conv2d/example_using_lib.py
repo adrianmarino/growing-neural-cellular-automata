@@ -1,7 +1,7 @@
 import torch as t
 import torch.nn.functional as F
 
-from lib.conv import conv, kernel
+from lib.model.conv import conv, kernel
 from lib.util.inspect import show_tensor
 
 
@@ -24,7 +24,7 @@ def create_samples_batch():
     Batch shape (1, 2, 5, 5)
     """
     sample = create_test_sample()
-    samples_batch = sample[None, :]
+    samples_batch = sample.unsqueeze(0)
     show_tensor('samples_batch', samples_batch)
     return samples_batch
 
