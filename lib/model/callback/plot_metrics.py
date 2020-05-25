@@ -1,6 +1,7 @@
 import logging
 
 import matplotlib.pyplot as plt
+
 from lib.model.callback.callback import Callback
 
 

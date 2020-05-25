@@ -3,7 +3,7 @@ from lib.util import img
 
 
 class PlotOutput(Callback):
-    def __init__(self, init=10, every=10, window_size=(1000, 1000)):
+    def __init__(self, init=10, every=10, window_size=(500, 500)):
         self.__init = init
         self.__every = every
         self.__window_size = window_size

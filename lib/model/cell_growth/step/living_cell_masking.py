@@ -30,5 +30,4 @@ class LivingCellMaskingStep(ModelStep):
         alive_grid = alive_grid > self.__threshold
         alive_grid = alive_grid.type(t.float32)
 
-        alive_tensor = t.stack([alive_grid] * state_channels, 0)
-        return alive_tensor
+        return t.stack([alive_grid] * state_channels, 0)

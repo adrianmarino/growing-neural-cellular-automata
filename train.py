@@ -41,22 +41,23 @@ if __name__ == "__main__":
     # img.show_tensor(target)
     # img.show_tensor(initial)
 
-    import torch
-    import torch.optim as optim
-
-    optimizer = optim.Adam(model.steps[1].parameters(), lr=0.0001)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=500, gamma=0.1)
+    optimizer = optim.Adam(model.steps[1].parameters(), lr=cfg['train.lr'])
+    scheduler = optim.lr_scheduler.StepLR(
+        optimizer,
+        step_size=cfg['train.scheduler.step_size'],
+        gamma=cfg['train.scheduler.gamma']
+    )
 
     model.train(
-        epochs=10000,
-        steps=32,
+        epochs=cfg['train.epochs'],
+        steps=cfg['train.steps'],
         initial=DataTensor.initial(target),
         target=target,
         optimizer=optimizer,
         scheduler=scheduler,
         loss_fn=MSELoss(reduction='sum'),
         callbacks=[
-            PlotMetrics(init=50, every=10, reset_every=600),
-            PlotOutput(init=50, every=100, window_size=(500, 500))
+            PlotMetrics(reset_every=cfg['train.metrics.reset_every']),
+            PlotOutput(every=cfg['train.preview.every'])
         ]
     )
