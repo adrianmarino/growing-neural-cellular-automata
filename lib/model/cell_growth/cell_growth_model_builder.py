@@ -1,3 +1,4 @@
+from lib.model.cell_growth.cell_growth_model import CellGrowthModel
 from lib.model.cell_growth.step.living_cell_masking import LivingCellMaskingStep
 from lib.model.cell_growth.step.perception_step import PerceptionStepFactory
 from lib.model.cell_growth.step.stochastic_cell_update import StochasticCellUpdateStep
@@ -40,7 +41,7 @@ class CellGrowthModelBuilder:
         return self
 
     def build(self):
-        return StepBasedModel(
+        return CellGrowthModel(
             steps=[
                 self.__perception_step,
                 self.__update_rule_step,
