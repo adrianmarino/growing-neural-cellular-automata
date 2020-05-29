@@ -24,7 +24,7 @@ conda env create --file environment.yml
 conda activate ca-growth
 ```
 
-**Step 1**: Test an already trained config
+**Step 1**: Test an already trained config.
 
 ```bash
 ./ca-growth --action test --config-name lizard-16x16
@@ -38,7 +38,7 @@ conda activate ca-growth
 conda activate ca-growth
 ```
 
-**Step 1**: Test an already trained config
+**Step 2**: Train model.
 
 ```bash
 ./ca-growth --action train --config-name lizard-16x16
