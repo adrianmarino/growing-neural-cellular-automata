@@ -15,12 +15,12 @@ class ArgumentManager:
             description='This is a model that learn to generate an image from one initial pixel . This model is based to  the '
                         'way that real multi-cellular organisms growth. '
         )
-        self.__parser.add_argument('--config-name', help='Configuration file name', default='lizard-16x16')
+        self.__parser.add_argument('--config', help='Configuration file name', default='lizard-16x16')
         self.__parser.add_argument('--action', choices=['train', 'test'], help='Specify train or test model', default='test')
         self.__args = self.__parser.parse_args()
 
     def config_name(self):
-        return self.__args.config_name
+        return self.__args.config
 
     def action(self):
         return self.__args.action

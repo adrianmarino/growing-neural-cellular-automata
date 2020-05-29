@@ -23,7 +23,19 @@ if __name__ == "__main__":
     initial = DataTensor.initial(target)
 
     if args.action() == 'test':
-        model.predict(initial, steps=cfg['model.forward.steps'], show_output=True)
+        model.predict(
+            initial,
+            steps=cfg['model.forward.steps'],
+            callbacks=[
+                PlotOutput(
+                    target=target,
+                    init=1,
+                    every=1,
+                    window_size=(cfg['model.preview.width'] * 2, cfg['model.preview.height']),
+                    close_key=0
+                )
+            ]
+        )
     else:
         optimizer = optim.Adam(
             model.parameters(),

@@ -31,7 +31,7 @@ conda activate ca-growth
 **Step 1**: Test an already trained config.
 
 ```bash
-./ca-growth --action test --config-name lizard-16x16
+./ca-growth --action test --config lizard-16x16
 ```
 
 ## Training a model
@@ -45,5 +45,5 @@ conda activate ca-growth
 **Step 2**: Train model.
 
 ```bash
-./ca-growth --action train --config-name lizard-16x16
+./ca-growth --action train --config lizard-16x16
 ```
