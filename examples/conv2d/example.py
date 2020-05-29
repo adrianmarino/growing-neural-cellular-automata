@@ -56,12 +56,12 @@ if __name__ == "__main__":
     #
     #
     # ---------------------------------------------------------------------------------------------
-    # CREATE WEIGHTS: A weights tensor have one filter by each out channel.
+    # CREATE WEIGHTS: A weights.old.2 tensor have one filter by each out channel.
     # ---------------------------------------------------------------------------------------------
     out_channels = 2
     filter_by_out_channel = [conv_filter] * out_channels
     weights = t.stack(filter_by_out_channel, 0)
-    show_tensor('weights', weights)
+    show_tensor('weights.old.2', weights)
     # ---------------------------------------------------------------------------------------------
     #
     #

@@ -1,0 +1,45 @@
+model:
+  step:
+    perception:
+      in_channels: &in-ch 16
+      out_channels_per_filter: *in-ch
+      filters:
+        - SOLVER_X
+        - SOLVER_Y
+    update_rule:
+      in_channels: 48
+      hidden_channels: 128
+      out_channels: *in-ch
+      output_zero_weights: True
+    stochastic_cell_update:
+      threshold: 1
+    living_cell_masking:
+      threshold: 0.05
+  train:
+    epochs: 15000
+    steps:
+      min: 29
+      max: &steps 29
+    lr: 0.000025
+    scheduler:
+      step_size: 2000
+      gamma: 0.75
+    metrics:
+      reset_every: 1500
+  forward:
+    steps: *steps
+  preview:
+    perception: False
+    every: 30
+    width: 500
+    height: 500
+  weights:
+    path: weights
+    save_every: 500
+
+logger:
+  name: ca-growth
+  path: logs
+  level: INFO
+  message_format: "%(levelname)s %(asctime)s - %(message)s"
+  date_format: "%Y-%m-%d %H:%M:%S"

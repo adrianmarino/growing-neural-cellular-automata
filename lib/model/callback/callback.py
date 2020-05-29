@@ -2,7 +2,7 @@ import abc
 
 from collections import namedtuple
 
-CallbackContext = namedtuple('CallbackContext', 'epoch loss output_batch lr')
+CallbackContext = namedtuple('CallbackContext', 'epochs epoch loss output_batch lr model')
 
 
 class Callback:

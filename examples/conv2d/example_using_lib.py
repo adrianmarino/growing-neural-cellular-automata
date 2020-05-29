@@ -48,10 +48,10 @@ if __name__ == "__main__":
     #
     #
     # ---------------------------------------------------------------------------------------------
-    # CREATE WEIGHTS: A weights tensor have one filter by each out channel.
+    # CREATE WEIGHTS: A weights.old.2 tensor have one filter by each out channel.
     # ---------------------------------------------------------------------------------------------
     weights = conv.weights(filter_, out_channels=2)
-    show_tensor('weights', weights)
+    show_tensor('weights.old.2', weights)
     # ---------------------------------------------------------------------------------------------
     #
     #

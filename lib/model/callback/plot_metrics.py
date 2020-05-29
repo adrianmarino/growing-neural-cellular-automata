@@ -6,7 +6,7 @@ from lib.model.callback.callback import Callback
 
 
 class PlotMetrics(Callback):
-    def __init__(self, init=10, every=10, reset_every=None):
+    def __init__(self, init=10, every=5, reset_every=None):
         self.__epochs = []
         self.__losses = []
         self.__lr = []
@@ -20,9 +20,10 @@ class PlotMetrics(Callback):
             self.__epochs.append(ctx.epoch)
             self.__lr.append(ctx.lr)
 
+        logging.info(f'Epoch: {ctx.epoch} - Loss: {ctx.loss} - LR: {ctx.lr}')
+
         if ctx.epoch > self.__init and ctx.epoch % self.__every == 0:
             self.plot_loss(self.__epochs, self.__losses, self.__lr)
-            logging.info(f'Epoch: {ctx.epoch} - Loss: {ctx.loss} - LR: {ctx.lr}')
 
         if self.__reset_every is not None and ctx.epoch % self.__reset_every == 0:
             self.__losses.clear()

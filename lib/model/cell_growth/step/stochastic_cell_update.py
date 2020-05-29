@@ -1,6 +1,7 @@
 import torch as t
 
 from lib.model.step_based_model import ModelStep, batch_map
+from lib.util import img
 
 
 class StochasticCellUpdateStep(ModelStep):
@@ -13,10 +14,10 @@ class StochasticCellUpdateStep(ModelStep):
             lambda index, ds_grid: self.__operation(input_batch[index], ds_grid)
         )
 
-    def __operation(self, state_grid, ds_grid):
+    def __operation(self, original_state_grid, ds_grid):
         rand_mask = self.__rand_mask(ds_grid)
-        ds_grid = ds_grid * rand_mask
-        return state_grid + ds_grid
+        next_state_grid = original_state_grid + (ds_grid * rand_mask)
+        return next_state_grid
 
     def __rand_mask(self, ds_grid):
         channels, width, height = ds_grid.size()

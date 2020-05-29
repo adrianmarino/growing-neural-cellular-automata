@@ -1,4 +1,3 @@
-import torch as t
 from torch import nn
 
 
@@ -17,6 +16,8 @@ def create_conv2d(
         padding=padding
     )
     if zero_weights:
-        layer.weight.data = t.zeros([out_channels, in_channels, 1, 1])
+        layer.weight.data.fill_(0.0)
+        layer.bias.data.fill_(0.0)
+        # layer.weight.data = t.zeros([out_channels, in_channels, 1, 1])
 
     return layer

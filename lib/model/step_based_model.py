@@ -10,7 +10,10 @@ def batch_map(input_batch, function=lambda index, element: element):
     for index, _input in enumerate(input_batch):
         output = function(index, _input)
         output = output.unsqueeze(0)
-        output_batch = output if output_batch is None else t.cat([output_batch, output], 0)
+        if output_batch is None:
+            output_batch = output
+        else:
+            output_batch = t.cat([output_batch, output], 0)
     return output_batch
 
 
@@ -24,7 +27,7 @@ class ModelStep:
 
 
 class StepBasedModel:
-    def __init__(self, steps, preview_size=(1500, 1500)):
+    def __init__(self, steps, preview_size):
         self.steps = steps
         self.__preview_size = preview_size
 
