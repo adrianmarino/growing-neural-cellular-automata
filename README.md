@@ -3,7 +3,7 @@
 This is a model that learn to generate an image from one initial pixel . This model is based to  the way that real multi-cellular organisms growth. Based to [Growing Neural Cellular Automata](https://distill.pub/2020/growing-ca) paper.
 
 
-# Demo video
+## Demo video
 
 <p align="center">
     <a href="http://www.youtube.com/watch?v=lqLZOWkb81Q" target="_tab"/>
