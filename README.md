@@ -76,15 +76,8 @@ conda activate ca-growth
 ./ca-growth --action train --config lizard-16x16
 ```
 
+### Train in colab
 
-### Colab
-
-To run training or test from console in colab you must hide graphs like next:
+Go to [Growing_Neural_Cellular_Automata_Model](Growing_Neural_Cellular_Automata_Model.ipynb) notebook to train model under colab environment.
 
 
-```bash
-ca-growth --action train \
-    --config lizard-16x16 \
-    --hide-output \
-    --hide-loss-graph
-```
