@@ -43,7 +43,7 @@ if __name__ == "__main__":
             LogMetrics()
         ]
 
-        if args.show_loss_graph():
+        if args.show_output():
             callbacks.append(
                 PlotOutput(
                     every=cfg['model.preview.every'],
