@@ -2,6 +2,7 @@
 import torch.optim as optim
 from torch.nn import MSELoss
 
+from lib.model.callback.log_metrics import LogMetrics
 from lib.model.callback.plot_metrics import PlotMetrics
 from lib.model.callback.plot_output import PlotOutput
 from lib.model.callback.save_weights import SaveWeights
@@ -23,24 +24,42 @@ if __name__ == "__main__":
     initial = DataTensor.initial(target)
 
     if args.action() == 'test':
-        model.predict(
-            initial,
-            steps=cfg['model.forward.steps'],
-            callbacks=[
-                PlotOutput(
-                    target=target,
-                    init=1,
-                    every=1,
-                    window_size=(cfg['model.preview.width'] * 2, cfg['model.preview.height']),
-                    close_key=0
-                )
-            ]
-        )
+        callbacks = []
+        if args.show_loss_graph():
+            callbacks.append(PlotOutput(
+                target=target,
+                init=1,
+                every=1,
+                window_size=(cfg['model.preview.width'] * 2, cfg['model.preview.height']),
+                close_key=0
+            ))
+        model.predict(initial, steps=cfg['model.forward.steps'], callbacks=callbacks)
     else:
+        callbacks = [
+            SaveWeights(
+                path=cfg['model.weights.path'],
+                every=cfg['model.weights.save_every']
+            ),
+            LogMetrics()
+        ]
+
+        if args.show_loss_graph():
+            callbacks.append(
+                PlotOutput(
+                    every=cfg['model.preview.every'],
+                    window_size=(cfg['model.preview.width'] * 2, cfg['model.preview.height']),
+                    target=target
+                )
+            )
+
+        if args.show_loss_graph():
+            callbacks.append(PlotMetrics(reset_every=cfg['model.train.metrics.reset_every']))
+
         optimizer = optim.Adam(
             model.parameters(),
             lr=cfg['model.train.lr']
         )
+
         scheduler = optim.lr_scheduler.StepLR(
             optimizer=optimizer,
             step_size=cfg['model.train.scheduler.step_size'],
@@ -55,16 +74,5 @@ if __name__ == "__main__":
             optimizer=optimizer,
             scheduler=scheduler,
             loss_fn=MSELoss(reduction='sum'),
-            callbacks=[
-                PlotMetrics(reset_every=cfg['model.train.metrics.reset_every']),
-                PlotOutput(
-                    every=cfg['model.preview.every'],
-                    window_size=(cfg['model.preview.width'] * 2, cfg['model.preview.height']),
-                    target=target
-                ),
-                SaveWeights(
-                    path=cfg['model.weights.path'],
-                    every=cfg['model.weights.save_every']
-                )
-            ]
+            callbacks=callbacks
         )

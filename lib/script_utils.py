@@ -1,5 +1,3 @@
-
-
 import argparse
 
 from lib.model.cell_growth.data_tensor import DataTensor
@@ -15,8 +13,44 @@ class ArgumentManager:
             description='This is a model that learn to generate an image from one initial pixel . This model is based to  the '
                         'way that real multi-cellular organisms growth. '
         )
-        self.__parser.add_argument('--config', help='Configuration file name', default='lizard-16x16')
-        self.__parser.add_argument('--action', choices=['train', 'test'], help='Specify train or test model', default='test')
+        self.__parser.add_argument(
+            '--config',
+            help='Configuration file name',
+            default='lizard-16x16'
+        )
+        self.__parser.add_argument(
+            '--action',
+            choices=['train', 'test'],
+            help='Specify train or test model',
+            default='test'
+        )
+        self.__parser.add_argument(
+            '--show-output',
+            dest='show_output',
+            action='store_true',
+            help='Show output evolution'
+        )
+        self.__parser.add_argument(
+            '--hide-output',
+            dest='show_output',
+            action='store_false',
+            help='Hide output evolution'
+        )
+        self.__parser.add_argument(
+            '--show-loss-graph',
+            dest='show_loss_graph',
+            action='store_true',
+            help='Show loss graph'
+        )
+        self.__parser.add_argument(
+            '--hide-loss-graph',
+            dest='show_loss_graph',
+            action='store_false',
+            help='Hide loss graph'
+        )
+        self.__parser.set_defaults(show_output=True)
+        self.__parser.set_defaults(show_loss_graph=True)
+
         self.__args = self.__parser.parse_args()
 
     def config_name(self):
@@ -24,6 +58,12 @@ class ArgumentManager:
 
     def action(self):
         return self.__args.action
+
+    def show_output(self):
+        return self.__args.show_output
+
+    def show_loss_graph(self):
+        return self.__args.show_loss_graph
 
 
 def load_config(model_name):
