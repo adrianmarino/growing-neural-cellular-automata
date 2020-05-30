@@ -1,7 +1,5 @@
 import logging
 
-import matplotlib.pyplot as plt
-
 from lib.model.callback.callback import Callback
 
 
@@ -32,6 +30,7 @@ class PlotMetrics(Callback):
 
     @staticmethod
     def plot_loss(epochs, losses, lrs):
+        import matplotlib.pyplot as plt
         plt.clf()
         plt.plot(epochs, losses, label='Loss')
         plt.plot(epochs, lrs, label='LR')
