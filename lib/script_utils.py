@@ -10,7 +10,7 @@ class ArgumentManager:
     def __init__(self):
         self.__parser = argparse.ArgumentParser(
             prog='Growing Neural Cellular Automata Model',
-            description='This is a model that learn to generate an image from one initial pixel . This model is based to  the '
+            description='This is a model that learn to generate an image from one initial pixel. This model is based to  the '
                         'way that real multi-cellular organisms growth. '
         )
         self.__parser.add_argument(
