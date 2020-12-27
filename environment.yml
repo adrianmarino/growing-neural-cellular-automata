@@ -10,9 +10,9 @@ dependencies:
     - pyyaml
     - pytorch=1.5
     - torchvision
-    - opencv
     - cudatoolkit=10.2
     - matplotlib
     - pillow
     - pip:
+        - opencv-python
         - torchviz
